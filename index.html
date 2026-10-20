@@ -200,12 +200,21 @@
   <!-- SMARTPHONE CONTAINER / DESKTOP MOCKUP -->
   <div id="device-frame" class="w-full max-w-[430px] h-[920px] max-h-[96vh] bg-gradient-to-b from-[#FDF5EE] via-[#FDF5EE] to-[#FCE8D8] rounded-[48px] shadow-2xl border-[10px] border-white/90 relative overflow-hidden flex flex-col">
 
-    <!-- IPHONE NOTCH & STATUS BAR -->
-    <div class="pt-3 px-7 pb-2 flex items-center justify-between shrink-0 select-none text-espresso text-xs font-semibold z-30">
-      <span>9:41</span>
-      <!-- Notch Pill -->
-      <div class="w-24 h-4 bg-stone-900 rounded-full mx-auto"></div>
-      <div class="flex items-center space-x-1.5 text-espresso">
+    <!-- IPHONE DYNAMIC ISLAND & STATUS BAR -->
+    <div class="relative pt-3 px-7 pb-2 flex items-center justify-between shrink-0 select-none text-espresso text-xs font-semibold z-30">
+      <!-- Left: Clock -->
+      <span class="w-16 text-left">9:41</span>
+
+      <!-- Dynamic Island (Perfect Mathematical Center via absolute left-1/2) -->
+      <div class="absolute left-1/2 -translate-x-1/2 top-3 w-28 h-6 bg-black rounded-full flex items-center justify-between px-2.5 shadow-sm pointer-events-none transition-all duration-300">
+        <!-- Front Camera Lens -->
+        <div class="w-2.5 h-2.5 rounded-full bg-[#18181b] border border-stone-800/90 shadow-inner"></div>
+        <!-- FaceID / Proximity Sensor Dot -->
+        <div class="w-2 h-2 rounded-full bg-[#09090b]"></div>
+      </div>
+
+      <!-- Right: Status Icons -->
+      <div class="flex items-center justify-end space-x-1.5 text-espresso w-16 text-right">
         <i data-lucide="signal" class="w-3.5 h-3.5"></i>
         <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
         <i data-lucide="battery" class="w-4 h-4"></i>
@@ -339,6 +348,21 @@
               <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
             </button>
           </div>
+
+          <!-- FITUR D: PENGINGAT ADAPTIF RUTINITAS PILL (INTERAKTIF) -->
+          <div onclick="openAdaptiveReminderModal()" class="mt-2.5 px-3 py-1.5 rounded-2xl bg-white/95 border border-purple-200/80 shadow-xs flex items-center justify-between text-[11px] text-espresso cursor-pointer hover:border-lavender-dark hover:shadow-sm transition group" title="Atur Pengingat Minum Obat Berbasis Rutinitas Adaptif">
+            <div class="flex items-center space-x-2">
+              <span id="home-routine-icon-display" class="w-6 h-6 rounded-xl bg-purple-50 text-lavender-dark flex items-center justify-center text-xs">🍽️</span>
+              <div class="text-left">
+                <span class="font-bold text-espresso text-[11px] group-hover:text-lavender-dark transition">Rutinitas: <span id="home-routine-name">Setelah Makan Malam</span></span>
+                <span class="text-[9px] text-muted-brown block leading-tight">Pengingat adaptif toleransi aman • Multi-nudge</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-1 text-lavender-dark font-bold text-[10px] shrink-0 ml-2">
+              <span>Atur</span>
+              <i data-lucide="sliders" class="w-3 h-3"></i>
+            </div>
+          </div>
         </div>
 
         <!-- BENTO GRID (2 COLUMNS: Daily Journal & Lab Progress) -->
@@ -422,29 +446,89 @@
 
         </div>
 
-        <!-- CLINIC & MEDICATION SECTION (Refill & Check-up Card) -->
-        <div>
-          <div class="flex items-center justify-between mb-1.5 px-1">
-            <h2 class="text-xs font-bold text-espresso uppercase tracking-wider">Clinic & Medication</h2>
-            <button onclick="openRefillModal()" class="text-[10px] font-bold text-lavender-dark hover:underline">Kelola</button>
+        <!-- ======================================================== -->
+        <!-- PENGELOLAAN TERAPI & ARV (ARV ADHERENCE & TREATMENT)     -->
+        <!-- Menampung Fitur E (Stok), F (Refill), G (Kontrol Dokter),-->
+        <!-- dan C (Panduan Dosis Terlewat / Terlupa)                 -->
+        <!-- ======================================================== -->
+        <div class="space-y-2.5 pt-1">
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center space-x-1.5">
+              <i data-lucide="shield-plus" class="w-4 h-4 text-peach-dark"></i>
+              <h2 class="text-xs font-bold text-espresso uppercase tracking-wider">Pengelolaan Terapi ARV</h2>
+            </div>
+            <span class="text-[9px] font-semibold text-muted-brown bg-stone-100 px-2 py-0.5 rounded-full">Treatment Hub</span>
           </div>
 
-          <div onclick="openRefillModal()" class="bg-white/95 rounded-3xl p-4 shadow-soft border border-border-soft flex items-center justify-between cursor-pointer hover:border-peach-accent transition group">
-            <div class="flex items-center space-x-3.5">
-              <div class="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-amber-700 shrink-0">
-                <i data-lucide="calendar" class="w-5 h-5"></i>
-              </div>
+          <!-- DUA KARTU BENTO: 1. Stok & Refill (E & F) | 2. Kontrol Dokter (G) -->
+          <div class="grid grid-cols-2 gap-3">
+
+            <!-- KARTU 1: PEMANTAUAN STOK & PENGINGAT REFILL (FITUR E & F) -->
+            <div onclick="openRefillStockModal()" class="bg-white/95 rounded-3xl p-3.5 shadow-soft border border-border-soft flex flex-col justify-between cursor-pointer hover:border-amber-300 transition group" title="Kelola Stok Pil & Pengingat Refill Obat">
               <div>
-                <div class="flex items-center space-x-2">
-                  <h3 class="text-xs font-bold text-espresso group-hover:text-amber-800 transition">Refill & Check-up</h3>
-                  <span id="home-pill-badge" class="px-1.5 py-0.2 rounded-full bg-rose-100 text-rose-700 text-[9px] font-bold">Sisa 8 Pil</span>
+                <div class="flex items-center justify-between mb-1.5">
+                  <div class="w-8 h-8 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center">
+                    <i data-lucide="package" class="w-4 h-4"></i>
+                  </div>
+                  <span id="home-stock-badge" class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[9px] font-bold">Sisa 8 Pil</span>
                 </div>
-                <p id="home-refill-text" class="text-[11px] text-muted-brown mt-0.5">Klinik Sehat • Oct 24, 09:00 AM</p>
-                <p class="text-[9px] text-stone-400">Konsultasi dokter & pengambilan obat ARV</p>
+                <h3 class="text-xs font-bold text-espresso group-hover:text-amber-800 transition">Stok & Refill ARV</h3>
+                
+                <!-- Stock Progress Bar -->
+                <div class="w-full bg-stone-100 rounded-full h-1.5 mt-2 overflow-hidden">
+                  <div id="home-stock-bar" class="bg-amber-500 h-1.5 rounded-full transition-all duration-500" style="width: 27%;"></div>
+                </div>
+
+                <p id="home-stock-estimate" class="text-[9px] text-stone-500 mt-1.5 leading-tight">Estimasi habis: <b class="text-espresso">27 Okt 2026</b></p>
+              </div>
+
+              <div class="mt-2 pt-2 border-t border-stone-100 flex items-center justify-between text-[10px]">
+                <span class="text-muted-brown truncate max-w-[90px]" id="home-refill-date-summary">Refill: 24 Okt</span>
+                <span class="text-amber-700 font-bold group-hover:underline flex items-center">
+                  <span>Atur</span>
+                  <i data-lucide="chevron-right" class="w-3 h-3 ml-0.5"></i>
+                </span>
               </div>
             </div>
-            <div class="w-8 h-8 rounded-xl bg-stone-50 flex items-center justify-center text-stone-400 group-hover:text-espresso group-hover:bg-peach-soft transition">
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
+
+            <!-- KARTU 2: PENGINGAT KONTROL KLINIK & DOKTER (FITUR G) -->
+            <div onclick="openClinicCheckupModal()" class="bg-white/95 rounded-3xl p-3.5 shadow-soft border border-border-soft flex flex-col justify-between cursor-pointer hover:border-peach-accent transition group" title="Lihat Jadwal Kontrol Dokter & Checklist Kunjungan">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <div class="w-8 h-8 rounded-2xl bg-peach-soft text-peach-dark flex items-center justify-center">
+                    <i data-lucide="stethoscope" class="w-4 h-4"></i>
+                  </div>
+                  <span id="home-checkup-badge" class="px-2 py-0.5 rounded-full bg-purple-50 text-lavender-dark text-[9px] font-bold">24 Okt</span>
+                </div>
+                <h3 class="text-xs font-bold text-espresso group-hover:text-peach-dark transition">Kontrol Dokter</h3>
+                <p id="home-doctor-name" class="text-[10px] font-semibold text-espresso mt-1 truncate">dr. Nadia, Sp.PD</p>
+                <p class="text-[9px] text-muted-brown" id="home-checkup-clinic-summary">Poli PDP • 09:30 WIB</p>
+              </div>
+
+              <div class="mt-2 pt-2 border-t border-stone-100 flex items-center justify-between text-[10px]">
+                <span class="text-emerald-700 font-bold" id="home-checkup-checklist-summary">✓ 3/4 Siap</span>
+                <span class="text-peach-dark font-bold group-hover:underline flex items-center">
+                  <span>Detail</span>
+                  <i data-lucide="chevron-right" class="w-3 h-3 ml-0.5"></i>
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- KARTU 3: LOG & PANDUAN DOSIS TERLEWAT / TERLUPA (FITUR C) -->
+          <div onclick="openMissedDoseGuide()" class="p-3 rounded-2xl bg-gradient-to-r from-purple-50/90 via-white to-amber-50/70 border border-purple-100 shadow-xs flex items-center justify-between cursor-pointer hover:border-lavender-dark hover:shadow-sm transition group" title="Panduan jika lupa atau terlambat minum ARV">
+            <div class="flex items-center space-x-2.5">
+              <div class="w-8 h-8 rounded-xl bg-purple-100 text-lavender-dark flex items-center justify-center shrink-0">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+              </div>
+              <div class="text-left">
+                <h4 class="text-xs font-bold text-espresso group-hover:text-lavender-dark transition">Lupa atau Terlewat Minum ARV?</h4>
+                <p class="text-[10px] text-muted-brown">Buka panduan adaptif aman tanpa panik & tanpa menggandakan dosis</p>
+              </div>
+            </div>
+            <div class="w-6 h-6 rounded-lg bg-white flex items-center justify-center text-lavender-dark shadow-xs group-hover:translate-x-0.5 transition shrink-0 ml-1">
+              <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
             </div>
           </div>
         </div>
@@ -620,7 +704,7 @@
             </div>
             <div class="pt-2 border-t border-stone-100 flex justify-between items-center text-[10px]">
               <span class="text-stone-500">29/30 Hari Tepat</span>
-              <button onclick="openMonthlyRecapModal()" class="font-bold text-lavender-dark hover:underline">Rekap</button>
+              <button onclick="openMonthlyMedicationReport()" class="font-bold text-lavender-dark hover:underline">Rekap</button>
             </div>
           </div>
 
@@ -629,13 +713,29 @@
             <span class="text-[10px] font-bold text-muted-brown uppercase tracking-wider">Stok Obat Terapi</span>
             <div class="my-1.5">
               <div class="text-2xl font-black text-espresso" id="track-stock-count">8 Pil</div>
-              <p class="text-[10px] text-rose-600 font-bold mt-0.5">Refill: 24 Okt 2026</p>
+              <p class="text-[10px] text-amber-700 font-bold mt-0.5" id="track-stock-refill-text">Refill: 24 Okt 2026</p>
             </div>
             <div class="pt-2 border-t border-stone-100 flex justify-between items-center text-[10px]">
               <span class="text-stone-500">TLD FDC</span>
-              <button onclick="openRefillModal()" class="font-bold text-amber-700 hover:underline">Update</button>
+              <button onclick="openRefillStockModal()" class="font-bold text-amber-700 hover:underline">Kelola Stok</button>
             </div>
           </div>
+        </div>
+
+        <!-- TREATMENT QUICK ACCESS STRIP (FITUR A, D, G, C) -->
+        <div class="grid grid-cols-3 gap-2 text-center text-[10px] font-bold">
+          <button onclick="openAdaptiveReminderModal()" class="p-2 rounded-2xl bg-white/95 border border-purple-100 hover:border-lavender-dark text-espresso flex flex-col items-center space-y-1 shadow-xs transition group">
+            <span class="text-sm group-hover:scale-110 transition">🔄</span>
+            <span class="text-[9px] text-stone-700">Pengingat Adaptif</span>
+          </button>
+          <button onclick="openClinicCheckupModal()" class="p-2 rounded-2xl bg-white/95 border border-peach-soft hover:border-peach-dark text-espresso flex flex-col items-center space-y-1 shadow-xs transition group">
+            <span class="text-sm group-hover:scale-110 transition">🩺</span>
+            <span class="text-[9px] text-stone-700">Kontrol Dokter</span>
+          </button>
+          <button onclick="openMissedDoseGuide()" class="p-2 rounded-2xl bg-white/95 border border-amber-100 hover:border-amber-400 text-espresso flex flex-col items-center space-y-1 shadow-xs transition group">
+            <span class="text-sm group-hover:scale-110 transition">⚠️</span>
+            <span class="text-[9px] text-stone-700">Dosis Terlewat</span>
+          </button>
         </div>
 
         <!-- 6.3 HEALTH MONITORING: CD4 & VIRAL LOAD CHART -->
@@ -1327,7 +1427,7 @@
       <!-- 1. Home -->
       <button onclick="switchTab('home')" id="nav-btn-home" class="nav-item flex flex-col items-center justify-center w-16 h-full text-peach-dark transition group">
         <div class="p-1 rounded-2xl group-hover:scale-110 transition">
-          <i data-lucide="home" class="w-5 h-5 text-peach-dark stroke-[2.2]"></i>
+          <i data-lucide="home" class="w-5 h-5 stroke-[2.2]"></i>
         </div>
         <span class="text-[10px] font-bold text-peach-dark mt-0.5 tracking-tight">Home</span>
       </button>
@@ -1375,7 +1475,7 @@
   <!-- 1. SHEET: LOG DOSE (TAKEN, MISSED, REMIND ME LATER) -->
   <div id="sheet-log-dose" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
     <div onclick="closeLogDoseSheet()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
-    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar space-y-4">
+    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[88vh] overflow-y-auto no-scrollbar space-y-4">
       <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-1"></div>
 
       <div class="flex items-center justify-between">
@@ -1389,7 +1489,7 @@
       </div>
 
       <div class="p-3 bg-purple-50/70 rounded-2xl border border-purple-100 text-xs text-stone-700 leading-relaxed">
-        💊 <b>Dosis Terjadwal:</b> 08:00 PM • TLD (Tenofovir / Lamivudine / Dolutegravir)
+        💊 <b>Dosis Terjadwal:</b> <span id="sheet-arv-time">08:00 PM (20:00)</span> • TLD (Tenofovir / Lamivudine / Dolutegravir)
         <p class="text-[10px] text-muted-brown mt-1">Catat secara jujur sesuai kondisimu. Tidak ada penilaian atau tekanan di sini.</p>
       </div>
 
@@ -1408,15 +1508,15 @@
           <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
         </button>
 
-        <!-- Option 2: Terlewat (Missed) -->
-        <button onclick="saveLogDose('missed')" class="w-full p-3.5 rounded-2xl bg-stone-50 hover:bg-stone-100 text-espresso font-bold text-xs border border-stone-200 flex items-center justify-between transition active:scale-98">
+        <!-- Option 2: Terlewat atau Terlupa (Missed / Forgotten Guide) -->
+        <button onclick="closeLogDoseSheet(); openMissedDoseGuide();" class="w-full p-3.5 rounded-2xl bg-amber-50/70 hover:bg-amber-100 text-espresso font-bold text-xs border border-amber-200 flex items-center justify-between transition active:scale-98">
           <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 rounded-xl bg-stone-200 text-stone-700 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-xl bg-amber-200 text-amber-900 flex items-center justify-center">
               <i data-lucide="clock" class="w-5 h-5"></i>
             </div>
             <div class="text-left">
-              <div class="text-xs font-extrabold text-espresso">Terlewat / Belum Diminum (Missed)</div>
-              <p class="text-[10px] text-muted-brown">Terlewat jadwal tanpa rasa bersalah</p>
+              <div class="text-xs font-extrabold text-espresso">Terlewat / Terlupa Minum Obat (Fitur C)</div>
+              <p class="text-[10px] text-muted-brown">Buka panduan adaptif aman tanpa panik</p>
             </div>
           </div>
           <i data-lucide="chevron-right" class="w-4 h-4 text-stone-400"></i>
@@ -1429,7 +1529,7 @@
               <i data-lucide="bell" class="w-5 h-5"></i>
             </div>
             <div class="text-left">
-              <div class="text-xs font-extrabold text-espresso">Ingatkan Nanti (1 Jam Lagi)</div>
+              <div class="text-xs font-extrabold text-espresso">Ingatkan Nanti (Snooze 1 Jam)</div>
               <p class="text-[10px] text-muted-brown">Belum sempat saat ini, setel pengingat</p>
             </div>
           </div>
@@ -1437,11 +1537,24 @@
         </button>
       </div>
 
-      <p class="text-[9px] text-center text-stone-400 pt-1">
+      <!-- Quick Links to Adaptive Settings & Missed Dose -->
+      <div class="pt-2 border-t border-stone-100 flex items-center justify-between text-[10px]">
+        <button onclick="closeLogDoseSheet(); openAdaptiveReminderModal();" class="text-lavender-dark font-bold hover:underline flex items-center space-x-1">
+          <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+          <span>Atur Pengingat & Rutinitas Adaptif</span>
+        </button>
+        <button onclick="closeLogDoseSheet(); openMissedDoseGuide();" class="text-amber-800 font-bold hover:underline flex items-center space-x-1">
+          <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+          <span>Panduan Dosis Terlewat</span>
+        </button>
+      </div>
+
+      <p class="text-[9px] text-center text-stone-400 pt-0.5">
         ⚠️ Jangan menggandakan dosis berikutnya jika terlewat. Konsultasikan dengan tenaga kesehatan jika Anda lupa minum lebih dari 12 jam.
       </p>
     </div>
   </div>
+
 
 
   <!-- 2. MODAL: WELLBEING & BOX BREATHING 4-4-4-4 -->
@@ -1630,49 +1743,462 @@
   </div>
 
 
-  <!-- 5. MODAL: REFILL & KLINIK SCHEDULE -->
-  <div id="modal-refill" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
-    <div onclick="closeRefillModal()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
-    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar space-y-4">
+  <!-- ======================================================== -->
+  <!-- FITUR C: MODAL PANDUAN & LOG DOSIS TERLEWAT / TERLUPA   -->
+  <!-- ======================================================== -->
+  <div id="modal-missed-dose" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
+    <div onclick="closeMissedDoseGuide()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar space-y-4">
       <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-1"></div>
 
       <div class="flex items-center justify-between">
-        <div>
-          <span class="text-[10px] font-bold text-muted-brown uppercase tracking-wider">Manajemen Stok & Jadwal</span>
-          <h3 class="text-base font-extrabold text-espresso">Refill ARV & Jadwal Klinik</h3>
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+            <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-amber-800 uppercase tracking-wider">Panduan Klinis Mandiri (Fitur C)</span>
+            <h3 class="text-base font-extrabold text-espresso">Dosis ARV Terlewat / Terlupa</h3>
+          </div>
         </div>
-        <button onclick="closeRefillModal()" class="p-1 text-stone-400 hover:text-stone-600">
+        <button onclick="closeMissedDoseGuide()" class="p-1 text-stone-400 hover:text-stone-600">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="space-y-3 text-xs">
-        <div>
-          <label class="font-bold text-espresso">Sisa Pil Obat Saat Ini:</label>
-          <div class="flex items-center space-x-2 mt-1">
-            <input type="number" id="input-refill-pills" value="8" min="0" max="90" class="flex-1 p-2.5 rounded-xl bg-stone-50 border border-stone-200 font-bold text-espresso text-sm">
-            <span class="text-xs text-muted-brown font-semibold">Butir Pil</span>
-          </div>
-        </div>
+      <!-- Empathetic Note -->
+      <div class="p-3 bg-purple-50/80 rounded-2xl border border-purple-100 text-xs text-stone-700 leading-relaxed">
+        💜 <b>Tarik napas perlahan.</b> Lupa minum obat adalah hal manusiawi yang dapat terjadi pada siapa pun. Yang paling penting adalah mengambil langkah yang tepat dan aman sekarang.
+      </div>
 
-        <div>
-          <label class="font-bold text-espresso">Tanggal Kontrol / Ambil Obat Berikutnya:</label>
-          <input type="text" id="input-refill-date" value="Klinik Sehat • Oct 24, 09:00 AM" class="w-full mt-1 p-2.5 rounded-xl bg-stone-50 border border-stone-200 text-espresso text-xs font-medium">
-        </div>
-
-        <div>
-          <label class="font-bold text-espresso">Lokasi Faskes PDP ARV:</label>
-          <input type="text" id="input-refill-faskes" value="Puskesmas / Klinik Ramah ODHIV" class="w-full mt-1 p-2.5 rounded-xl bg-stone-50 border border-stone-200 text-espresso text-xs font-medium">
-        </div>
-
-        <div class="pt-2">
-          <button onclick="saveRefillSettings()" class="w-full py-3 rounded-2xl bg-espresso hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-98">
-            Simpan Pembaruan Jadwal
+      <!-- Step 1: Berapa lama waktu terlewat? -->
+      <div class="space-y-2">
+        <label class="text-xs font-bold text-espresso">Berapa jam berlalu sejak jadwal target (20:00)?</label>
+        <div class="grid grid-cols-3 gap-2 text-center text-xs font-bold">
+          <button id="missed-btn-under4" onclick="selectMissedHours('under4')" class="p-3 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-emerald-900 transition flex flex-col items-center">
+            <span class="text-sm">⏱️</span>
+            <span class="mt-1">&lt; 4 Jam</span>
+            <span class="text-[9px] font-normal text-emerald-700 mt-0.5">Baru terlewat</span>
+          </button>
+          <button id="missed-btn-between412" onclick="selectMissedHours('between412')" class="p-3 rounded-2xl bg-stone-50 border-2 border-transparent hover:border-stone-200 text-stone-700 transition flex flex-col items-center">
+            <span class="text-sm">⏳</span>
+            <span class="mt-1">4 – 12 Jam</span>
+            <span class="text-[9px] font-normal text-stone-500 mt-0.5">Beberapa jam</span>
+          </button>
+          <button id="missed-btn-over12" onclick="selectMissedHours('over12')" class="p-3 rounded-2xl bg-stone-50 border-2 border-transparent hover:border-stone-200 text-stone-700 transition flex flex-col items-center">
+            <span class="text-sm">🌙</span>
+            <span class="mt-1">&gt; 12 Jam</span>
+            <span class="text-[9px] font-normal text-stone-500 mt-0.5">Dekat jadwal esok</span>
           </button>
         </div>
       </div>
+
+      <!-- Dynamic Recommendation Card based on selected hours -->
+      <div id="missed-recommendation-card" class="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-2">
+        <div class="flex items-center space-x-2 text-emerald-800 font-extrabold text-xs">
+          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+          <span id="missed-recommendation-title">Rekomendasi: Minum 1 Dosis Sekarang Juga</span>
+        </div>
+        <p id="missed-recommendation-text" class="text-xs text-emerald-900/90 leading-relaxed">
+          Waktu terlewat masih di bawah 12 jam, sehingga efektivitas terapi tetap aman terlindungi jika Anda meminumnya sekarang. Jadwal dosis besok tetap kembali ke jam normal (20:00).
+        </p>
+        <div class="pt-1 text-[10px] text-emerald-800 font-bold bg-white/70 p-2 rounded-xl border border-emerald-200/60">
+          ⚠️ <b>Penting:</b> Cukup minum 1 pil saja. Jangan pernah menggandakan 2 pil sekaligus!
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2 pt-1">
+        <button id="btn-missed-take-now" onclick="resolveMissedDose('take_late')" class="w-full py-3 rounded-2xl bg-espresso hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-98 flex items-center justify-center space-x-2">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Minum Dosis Sekarang (Catat Terlambat)</span>
+        </button>
+
+        <button id="btn-missed-skip" onclick="resolveMissedDose('skip_dose')" class="w-full py-2.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs transition active:scale-98 flex items-center justify-center space-x-1.5">
+          <i data-lucide="calendar-x" class="w-4 h-4"></i>
+          <span>Lewati Dosis Ini & Kembali ke Jadwal Besok</span>
+        </button>
+
+        <button onclick="closeMissedDoseGuide(); openCareNavigationModal('Konseling');" class="w-full py-2 text-center text-[11px] font-bold text-lavender-dark hover:underline">
+          Butuh konsultasi lebih lanjut dengan konselor? Hubungi Pendamping
+        </button>
+      </div>
     </div>
   </div>
+
+  <!-- ======================================================== -->
+  <!-- FITUR A & D: MODAL PENGINGAT ARV & RUTINITAS ADAPTIF     -->
+  <!-- ======================================================== -->
+  <div id="modal-adaptive-reminder" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
+    <div onclick="closeAdaptiveReminderModal()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar space-y-4">
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-1"></div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-purple-50 text-lavender-dark flex items-center justify-center font-bold">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-lavender-dark uppercase tracking-wider">Pengingat Adaptif Rutinitas (Fitur A & D)</span>
+            <h3 class="text-base font-extrabold text-espresso">Jadwal & Pengingat ARV</h3>
+          </div>
+        </div>
+        <button onclick="closeAdaptiveReminderModal()" class="p-1 text-stone-400 hover:text-stone-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Bagian A: Waktu Minum Obat (Feature A) -->
+      <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-espresso uppercase tracking-wider">Target Waktu Minum Obat</span>
+          <span class="text-[10px] text-muted-brown">1 kali sehari (TLD)</span>
+        </div>
+        <div class="flex items-center space-x-3">
+          <input type="time" id="input-arv-target-time" value="20:00" class="p-2.5 rounded-xl bg-white border border-stone-300 font-extrabold text-espresso text-base flex-1">
+          <div class="text-[10px] text-stone-500 leading-tight">
+            Waktu default disarankan malam hari untuk meminimalkan efek samping awal.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian D: Rutinitas Adaptif (Feature D) -->
+      <div class="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 space-y-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="text-xs font-bold text-espresso uppercase tracking-wider flex items-center space-x-1">
+              <span>Pengingat Berbasis Rutinitas Adaptif</span>
+              <span class="px-1.5 py-0.2 rounded-full bg-purple-100 text-lavender-dark text-[8px] font-black">Inovasi</span>
+            </span>
+            <p class="text-[10px] text-muted-brown mt-0.5">Kaitkan jadwal minum obat dengan kebiasaan sehari-hari nyata</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="toggle-adaptive-routine" checked class="sr-only peer">
+            <div class="w-9 h-5 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-lavender-dark"></div>
+          </label>
+        </div>
+
+        <!-- Pilihan Rutinitas Anchor -->
+        <div class="space-y-1.5 pt-1">
+          <span class="text-[10px] font-bold text-stone-600">Pilih Jangkar Rutinitas Anda:</span>
+          <div class="grid grid-cols-1 gap-2 text-xs">
+            <button onclick="selectRoutineAnchor('Setelah Makan Malam')" id="routine-opt-dinner" class="p-2.5 rounded-xl border-2 border-lavender-dark bg-white font-bold text-espresso flex items-center justify-between text-left transition">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🍽️</span>
+                <div>
+                  <div>Setelah Makan Malam</div>
+                  <span class="text-[9px] font-normal text-muted-brown">Kisaran waktu santai: 19:30 – 20:30 WIB</span>
+                </div>
+              </div>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-lavender-dark routine-check-icon"></i>
+            </button>
+
+            <button onclick="selectRoutineAnchor('Sebelum Tidur Malam')" id="routine-opt-bed" class="p-2.5 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-stone-700 flex items-center justify-between text-left transition">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🛏️</span>
+                <div>
+                  <div>Sebelum Tidur Malam</div>
+                  <span class="text-[9px] font-normal text-muted-brown">Kisaran waktu santai: 21:30 – 22:30 WIB</span>
+                </div>
+              </div>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-stone-300 routine-check-icon"></i>
+            </button>
+
+            <button onclick="selectRoutineAnchor('Saat Sikat Gigi Malam')" id="routine-opt-teeth" class="p-2.5 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-stone-700 flex items-center justify-between text-left transition">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🪥</span>
+                <div>
+                  <div>Saat Sikat Gigi Malam</div>
+                  <span class="text-[9px] font-normal text-muted-brown">Ritual kamar mandi sebelum istirahat: ~21:00 WIB</span>
+                </div>
+              </div>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-stone-300 routine-check-icon"></i>
+            </button>
+
+            <button onclick="selectRoutineAnchor('Setelah Bangun Pagi')" id="routine-opt-morning" class="p-2.5 rounded-xl border-2 border-stone-200 bg-white hover:border-stone-300 text-stone-700 flex items-center justify-between text-left transition">
+              <div class="flex items-center space-x-2.5">
+                <span class="text-base">🌅</span>
+                <div>
+                  <div>Setelah Bangun Pagi</div>
+                  <span class="text-[9px] font-normal text-muted-brown">Awali hari dengan segelas air: 07:00 – 08:00 WIB</span>
+                </div>
+              </div>
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-stone-300 routine-check-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 Toggles: Smart Buffer, Multi-Nudge & Disguised Notification -->
+        <div class="pt-2 border-t border-purple-100 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-espresso">Toleransi Akhir Pekan (Smart Buffer)</span>
+              <p class="text-[10px] text-muted-brown">Menoleransi tidur lebih larut di akhir pekan tanpa merusak kepatuhan</p>
+            </div>
+            <input type="checkbox" id="toggle-smart-buffer" checked class="w-4 h-4 accent-purple-600 rounded">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-espresso">Multi-Nudge Bertahap</span>
+              <p class="text-[10px] text-muted-brown">Pengingat 15 menit sebelum, tepat waktu, dan +30m jika belum dicatat</p>
+            </div>
+            <input type="checkbox" id="toggle-multi-nudge" checked class="w-4 h-4 accent-purple-600 rounded">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-espresso">Notifikasi Tersamar (Privasi ODHIV)</span>
+              <p class="text-[10px] text-muted-brown">Pesan netral "Waktunya minum suplemen" agar aman dilihat orang lain</p>
+            </div>
+            <input type="checkbox" id="toggle-disguised-adaptive" checked class="w-4 h-4 accent-purple-600 rounded">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="saveAdaptiveReminderSettings()" class="w-full py-3 rounded-2xl bg-espresso hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-98">
+          Simpan Pengaturan Pengingat Adaptif
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FITUR E & F: MODAL PEMANTAUAN STOK OBAT & PENGINGAT REFILL-->
+  <!-- ======================================================== -->
+  <div id="modal-refill" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
+    <div onclick="closeRefillStockModal()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar space-y-4">
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-1"></div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+            <i data-lucide="package" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-amber-800 uppercase tracking-wider">Stok & Pengingat Ambil Obat (Fitur E & F)</span>
+            <h3 class="text-base font-extrabold text-espresso">Pemantauan Stok & Refill ARV</h3>
+          </div>
+        </div>
+        <button onclick="closeRefillStockModal()" class="p-1 text-stone-400 hover:text-stone-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Bagian E: Pemantauan & Pengaturan Stok Obat (Fitur E) -->
+      <div class="p-4 rounded-3xl bg-amber-50/70 border border-amber-200/80 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-amber-900 uppercase tracking-wider">Pemantauan & Pengaturan Stok (Fitur E)</span>
+          <span id="modal-stock-status-pill" class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[9px] font-extrabold shadow-2xs">Menipis (8 Pil)</span>
+        </div>
+
+        <!-- Custom Stepper & Direct Input -->
+        <div class="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-xs space-y-2">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold text-espresso">Atur Jumlah Sisa Pil Obat:</span>
+              <p class="text-[10px] text-muted-brown">Ketik angka atau gunakan tombol +/-</p>
+            </div>
+            
+            <!-- Stepper: [-] [ Input ] [+] -->
+            <div class="flex items-center space-x-1.5 bg-stone-50 p-1 rounded-2xl border border-stone-200">
+              <button type="button" onclick="adjustPills(-1)" class="w-8 h-8 rounded-xl bg-white hover:bg-stone-200 text-espresso font-black text-sm flex items-center justify-center shadow-xs active:scale-95 transition" title="Kurangi 1 Pil">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="flex items-center space-x-1 px-1">
+                <input type="number" id="input-refill-pills" value="8" min="0" max="365" oninput="updateStockModalBar()" onchange="updateStockModalBar()" class="w-16 p-1.5 rounded-xl bg-amber-50/80 border-2 border-amber-300 font-black text-espresso text-base text-center focus:border-amber-500 focus:outline-none">
+                <span class="text-xs font-bold text-espresso">Pil</span>
+              </div>
+              <button type="button" onclick="adjustPills(1)" class="w-8 h-8 rounded-xl bg-white hover:bg-stone-200 text-espresso font-black text-sm flex items-center justify-center shadow-xs active:scale-95 transition" title="Tambah 1 Pil">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Preset Chips -->
+          <div class="pt-2 border-t border-stone-100 space-y-1">
+            <span class="text-[10px] font-bold text-stone-500 block">Pilihan Cepat Jumlah Pil:</span>
+            <div class="flex flex-wrap gap-1.5 text-xs font-bold">
+              <button type="button" onclick="setPillStock(10)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-100 text-stone-700 transition">10 Pil</button>
+              <button type="button" onclick="setPillStock(15)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-100 text-stone-700 transition">15 Pil</button>
+              <button type="button" onclick="setPillStock(30)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-100 text-stone-700 transition">30 Pil (1 Botol)</button>
+              <button type="button" onclick="setPillStock(60)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-100 text-stone-700 transition">60 Pil (2 Botol)</button>
+              <button type="button" onclick="setPillStock(90)" class="px-2.5 py-1 rounded-xl bg-stone-100 hover:bg-amber-100 text-stone-700 transition">90 Pil (3 Botol)</button>
+              <button type="button" onclick="adjustPills(5)" class="px-2 py-1 rounded-xl bg-amber-100/70 hover:bg-amber-200 text-amber-900 transition">+5</button>
+              <button type="button" onclick="adjustPills(10)" class="px-2 py-1 rounded-xl bg-amber-100/70 hover:bg-amber-200 text-amber-900 transition">+10</button>
+              <button type="button" onclick="adjustPills(-5)" class="px-2 py-1 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-800 transition">-5</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Stock Progress Bar & Estimation -->
+        <div class="space-y-1 pt-1">
+          <div class="flex items-center justify-between text-[11px] font-semibold">
+            <span id="modal-stock-days-left" class="text-espresso font-bold">Cukup untuk 8 hari</span>
+            <span id="modal-stock-exhaust-date" class="text-amber-800 font-bold">Estimasi Habis: 28 Okt 2026</span>
+          </div>
+
+          <div class="w-full bg-stone-200/90 rounded-full h-2.5 overflow-hidden">
+            <div id="modal-stock-progress-bar" class="bg-amber-500 h-2.5 rounded-full transition-all duration-300" style="width: 27%;"></div>
+          </div>
+
+          <div class="flex items-center justify-between text-[10px] text-stone-500 pt-0.5">
+            <span>0 Pil</span>
+            <span id="modal-stock-scale-max" class="text-[9px] text-stone-400">Kapasitas: 30 Pil</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian F: Pengingat Pengambilan Obat (Refill Reminder) -->
+      <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3">
+        <span class="text-xs font-bold text-espresso uppercase tracking-wider">Pengingat Pengambilan Obat (Fitur F)</span>
+
+        <div>
+          <label class="text-[11px] font-bold text-espresso">Tanggal & Jam Ambil Obat Berikutnya:</label>
+          <input type="text" id="input-refill-date" value="24 Okt 2026, 09:00 WIB" class="w-full mt-1 p-2.5 rounded-xl bg-white border border-stone-300 text-espresso text-xs font-semibold">
+        </div>
+
+        <div>
+          <label class="text-[11px] font-bold text-espresso">Lokasi Faskes PDP ARV:</label>
+          <input type="text" id="input-refill-faskes" value="Puskesmas / Poli PDP Klinik Sehat" class="w-full mt-1 p-2.5 rounded-xl bg-white border border-stone-300 text-espresso text-xs font-medium">
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+          <span class="text-[10px] font-bold text-stone-600">Alarm Peringatan Dini Pengambilan Obat:</span>
+          <div class="space-y-1 text-xs">
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" id="check-alert-h7" class="w-4 h-4 accent-amber-600 rounded">
+              <span class="text-[11px] text-stone-700">Peringatan H-7 sebelum obat habis</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" id="check-alert-h3" checked class="w-4 h-4 accent-amber-600 rounded">
+              <span class="text-[11px] text-stone-700 font-bold">Peringatan H-3 sebelum obat habis (Disarankan)</span>
+            </label>
+            <label class="flex items-center space-x-2">
+              <input type="checkbox" id="check-alert-h1" checked class="w-4 h-4 accent-amber-600 rounded">
+              <span class="text-[11px] text-stone-700">Peringatan H-1 hari H pengambilan obat</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="saveRefillStockSettings()" class="w-full py-3 rounded-2xl bg-espresso hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-98">
+          Simpan Pembaruan Stok & Refill
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- FITUR G: MODAL PENGINGAT KONTROL DOKTER & JADWAL KLINIK  -->
+  <!-- ======================================================== -->
+  <div id="modal-clinic-checkup" class="sheet-modal hidden fixed inset-0 z-50 flex flex-col justify-end">
+    <div onclick="closeClinicCheckupModal()" class="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
+    <div class="relative bg-white rounded-t-[36px] p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar space-y-4">
+      <div class="w-12 h-1.5 bg-stone-300 rounded-full mx-auto mb-1"></div>
+
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-9 h-9 rounded-2xl bg-peach-soft text-peach-dark flex items-center justify-center font-bold">
+            <i data-lucide="stethoscope" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <span class="text-[10px] font-bold text-peach-dark uppercase tracking-wider">Layanan Kesehatan & Dokter (Fitur G)</span>
+            <h3 class="text-base font-extrabold text-espresso">Pengingat Kontrol Klinik</h3>
+          </div>
+        </div>
+        <button onclick="closeClinicCheckupModal()" class="p-1 text-stone-400 hover:text-stone-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- Detail Jadwal Kontrol Dokter -->
+      <div class="p-4 rounded-2xl bg-peach-soft/50 border border-peach-accent/50 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-espresso uppercase tracking-wider">Jadwal Janji Temu</span>
+          <span class="px-2 py-0.5 rounded-full bg-white text-peach-dark text-[9px] font-extrabold shadow-xs">Poli PDP</span>
+        </div>
+
+        <div class="space-y-1.5 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-muted-brown">Dokter:</span>
+            <span id="checkup-detail-doctor" class="font-bold text-espresso">dr. Nadia, Sp.PD</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-muted-brown">Fasilitas Kesehatan:</span>
+            <span id="checkup-detail-clinic" class="font-semibold text-espresso">Poli PDP Klinik Sehat</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-muted-brown">Waktu Kontrol:</span>
+            <span id="checkup-detail-datetime" class="font-bold text-peach-dark">24 Okt 2026, 09:30 WIB</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-muted-brown">Agenda:</span>
+            <span class="text-[11px] text-stone-700">Evaluasi rutin 6 bulan terapi & konsultasi lab</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Checklist Persiapan Kontrol (Interaktif) -->
+      <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-espresso uppercase tracking-wider">Checklist Dokumen & Persiapan</span>
+          <span id="checkup-checklist-counter" class="text-[10px] font-bold text-emerald-700">3 dari 4 Siap</span>
+        </div>
+
+        <div class="space-y-2" id="checkup-checklist-container">
+          <label class="flex items-center space-x-2.5 p-2 rounded-xl bg-white border border-stone-200/80 cursor-pointer">
+            <input type="checkbox" id="checkup-item-1" checked onchange="toggleChecklistItem(1)" class="w-4 h-4 accent-peach-dark rounded">
+            <span class="text-xs text-stone-800 font-medium">Kartu Berobat / BPJS Aktif</span>
+          </label>
+          <label class="flex items-center space-x-2.5 p-2 rounded-xl bg-white border border-stone-200/80 cursor-pointer">
+            <input type="checkbox" id="checkup-item-2" checked onchange="toggleChecklistItem(2)" class="w-4 h-4 accent-peach-dark rounded">
+            <span class="text-xs text-stone-800 font-medium">Buku Saku Pemantauan ARV</span>
+          </label>
+          <label class="flex items-center space-x-2.5 p-2 rounded-xl bg-white border border-stone-200/80 cursor-pointer">
+            <input type="checkbox" id="checkup-item-3" checked onchange="toggleChecklistItem(3)" class="w-4 h-4 accent-peach-dark rounded">
+            <span class="text-xs text-stone-800 font-medium">Hasil Tes Lab Terakhir (CD4: 550, VL Undetectable)</span>
+          </label>
+          <label class="flex items-center space-x-2.5 p-2 rounded-xl bg-white border border-stone-200/80 cursor-pointer">
+            <input type="checkbox" id="checkup-item-4" onchange="toggleChecklistItem(4)" class="w-4 h-4 accent-peach-dark rounded">
+            <span class="text-xs text-stone-800 font-medium">Catatan Keluhan / Pertanyaan untuk Dokter</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Ubah Jadwal Form -->
+      <div class="space-y-2 text-xs">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-[10px] font-bold text-muted-brown">Ubah Tanggal:</label>
+            <input type="text" id="input-checkup-date" value="24 Okt 2026, 09:30 WIB" class="w-full mt-1 p-2 rounded-xl bg-white border border-stone-300 text-espresso text-xs font-semibold">
+          </div>
+          <div>
+            <label class="text-[10px] font-bold text-muted-brown">Nama Dokter / Faskes:</label>
+            <input type="text" id="input-checkup-doctor" value="dr. Nadia, Sp.PD" class="w-full mt-1 p-2 rounded-xl bg-white border border-stone-300 text-espresso text-xs font-semibold">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="space-y-2 pt-1">
+        <button onclick="completeClinicCheckup()" class="w-full py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm transition active:scale-98 flex items-center justify-center space-x-2">
+          <i data-lucide="check-circle" class="w-4 h-4"></i>
+          <span>Tandai Selesai Kontrol & Jadwalkan Berikutnya</span>
+        </button>
+
+        <button onclick="saveClinicCheckupSettings()" class="w-full py-2.5 rounded-2xl bg-espresso hover:bg-stone-800 text-white font-bold text-xs transition active:scale-98">
+          Simpan Pembaruan Jadwal Kontrol
+        </button>
+      </div>
+    </div>
+  </div>
+
+
 
 
   <!-- 6. MODAL: INPUT HASIL LAB BARU -->
@@ -2835,15 +3361,40 @@
       arvDose: {
         loggedToday: false,
         time: '08:00 PM',
+        targetTime: '20:00',
         status: 'Tepat Waktu',
         streakDays: 24,
-        regimen: 'TLD'
+        regimen: 'TLD (Tenofovir / Lamivudine / Dolutegravir)',
+        // FITUR D: Rutinitas Adaptif
+        adaptiveRoutine: {
+          enabled: true,
+          routineName: 'Setelah Makan Malam',
+          routineIcon: '🍽️',
+          targetTime: '20:00',
+          smartBufferWeekend: true,
+          multiNudge: true,
+          disguisedNotification: true
+        }
       },
       stock: {
         pillsLeft: 8,
         totalPills: 30,
-        refillDate: 'Oct 24, 09:00 AM',
-        faskes: 'Klinik Sehat'
+        refillDate: '24 Okt 2026, 09:00 WIB',
+        refillFaskes: 'Puskesmas / Poli PDP Klinik Sehat',
+        alertH7: false,
+        alertH3: true,
+        alertH1: true
+      },
+      clinicCheckup: {
+        doctorName: 'dr. Nadia, Sp.PD',
+        clinicName: 'Poli PDP Klinik Sehat',
+        datetime: '24 Okt 2026, 09:30 WIB',
+        checklist: [
+          { id: 1, text: 'Kartu Berobat / BPJS Aktif', done: true },
+          { id: 2, text: 'Buku Saku Pemantauan ARV', done: true },
+          { id: 3, text: 'Hasil Tes Lab Terakhir (CD4: 550, VL Undetectable)', done: true },
+          { id: 4, text: 'Catatan Keluhan / Pertanyaan untuk Dokter', done: false }
+        ]
       },
       labData: {
         currentChart: 'cd4',
@@ -3350,6 +3901,10 @@
         if (key === tabName) {
           btn.classList.add('text-peach-dark');
           btn.classList.remove('text-stone-400');
+          if (icon) {
+            icon.classList.add('text-peach-dark');
+            icon.classList.remove('text-stone-400');
+          }
           if (span) {
             span.classList.add('font-bold', 'text-peach-dark');
             span.classList.remove('font-medium');
@@ -3357,6 +3912,10 @@
         } else {
           btn.classList.remove('text-peach-dark');
           btn.classList.add('text-stone-400');
+          if (icon) {
+            icon.classList.remove('text-peach-dark');
+            icon.classList.add('text-stone-400');
+          }
           if (span) {
             span.classList.remove('font-bold', 'text-peach-dark');
             span.classList.add('font-medium');
@@ -3424,6 +3983,11 @@
       const btnText = document.getElementById('btn-log-dose-text');
       const btn = document.getElementById('btn-log-dose');
       const streakText = document.getElementById('adherence-streak-text');
+      const scheduleTime = document.getElementById('arv-schedule-time');
+
+      if (scheduleTime && AppState.arvDose.time) {
+        scheduleTime.textContent = AppState.arvDose.time;
+      }
 
       if (streakText) {
         streakText.textContent = `${AppState.arvDose.streakDays} Hari Beruntun`;
@@ -3939,32 +4503,522 @@
       showToast('Tautan ringkasan aman telah disiapkan untuk konselor sebaya.', '📲');
     }
 
-    function openRefillModal() {
+    // =============================================================
+    // ARV ADHERENCE & TREATMENT MANAGEMENT SUITE (FITUR A S/D H)
+    // =============================================================
+
+    // -------------------------------------------------------------
+    // FITUR C: LOG DOSIS OBAT TERLEWAT / TERLUPA & PANDUAN MANDIRI
+    // -------------------------------------------------------------
+    let currentMissedHoursRange = 'under4';
+
+    function openMissedDoseGuide() {
+      selectMissedHours('under4');
+      openSheet('modal-missed-dose');
+    }
+
+    function closeMissedDoseGuide() {
+      closeSheet('modal-missed-dose');
+    }
+
+    function selectMissedHours(range) {
+      currentMissedHoursRange = range;
+
+      const btnUnder4 = document.getElementById('missed-btn-under4');
+      const btnBetween = document.getElementById('missed-btn-between412');
+      const btnOver12 = document.getElementById('missed-btn-over12');
+
+      const card = document.getElementById('missed-recommendation-card');
+      const title = document.getElementById('missed-recommendation-title');
+      const text = document.getElementById('missed-recommendation-text');
+      const btnTakeNow = document.getElementById('btn-missed-take-now');
+
+      const allBtns = [btnUnder4, btnBetween, btnOver12];
+      allBtns.forEach(b => {
+        if (b) {
+          b.classList.remove('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'border-2');
+          b.classList.add('bg-stone-50', 'border-transparent', 'text-stone-700', 'border-2');
+        }
+      });
+
+      if (range === 'under4') {
+        if (btnUnder4) {
+          btnUnder4.classList.remove('bg-stone-50', 'border-transparent', 'text-stone-700');
+          btnUnder4.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900');
+        }
+        if (title) title.textContent = 'Rekomendasi: Minum 1 Dosis Sekarang Juga';
+        if (text) text.textContent = 'Waktu terlewat masih di bawah 4 jam. Efektivitas ARV tetap terlindungi jika Anda meminumnya sekarang. Jadwal besok tetap pada jam normal (20:00).';
+        if (card) {
+          card.className = 'p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-2';
+        }
+        if (btnTakeNow) btnTakeNow.classList.remove('hidden');
+      } else if (range === 'between412') {
+        if (btnBetween) {
+          btnBetween.classList.remove('bg-stone-50', 'border-transparent', 'text-stone-700');
+          btnBetween.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900');
+        }
+        if (title) title.textContent = 'Rekomendasi: Masih Aman Diminum Sekarang';
+        if (text) text.textContent = 'Terlewat 4 hingga 12 jam masih dalam rentang toleransi efektivitas terapi. Minum 1 dosis sekarang, lalu minum dosis berikutnya besok pada jam biasa.';
+        if (card) {
+          card.className = 'p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-2';
+        }
+        if (btnTakeNow) btnTakeNow.classList.remove('hidden');
+      } else if (range === 'over12') {
+        if (btnOver12) {
+          btnOver12.classList.remove('bg-stone-50', 'border-transparent', 'text-stone-700');
+          btnOver12.classList.add('bg-amber-50', 'border-amber-500', 'text-amber-900');
+        }
+        if (title) title.textContent = 'Rekomendasi: Lewati Dosis Ini & Jangan Gandakan!';
+        if (text) text.textContent = 'Waktu sudah lebih dari 12 jam dan terlalu dekat dengan dosis berikutnya. Lewati dosis ini dan minum dosis berikutnya besok jam 20:00. PERINGATAN: Jangan pernah minum 2 pil sekaligus!';
+        if (card) {
+          card.className = 'p-4 rounded-2xl bg-amber-50/90 border border-amber-200 space-y-2';
+        }
+        if (btnTakeNow) btnTakeNow.classList.add('hidden');
+      }
+    }
+
+    function resolveMissedDose(action) {
+      closeMissedDoseGuide();
+
+      if (action === 'take_late') {
+        AppState.arvDose.loggedToday = true;
+        AppState.arvDose.status = 'Diminum Terlambat';
+        if (AppState.stock.pillsLeft > 0) {
+          AppState.stock.pillsLeft -= 1;
+        }
+
+        AppState.history.unshift({
+          id: Date.now(),
+          type: 'arv',
+          title: 'Dosis ARV Diminum (Terlambat)',
+          desc: 'Dosis diminum dalam rentang aman setelah terlupa. Terus jaga ritme harianmu.',
+          time: 'Hari ini, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          badge: 'Diminum Terlambat'
+        });
+
+        updateARVRingUI();
+        updateTreatmentCardsUI();
+        renderTimeline();
+        savePersistedState();
+        showToast('Dosis diminum & dicatat. Sangat baik sudah mengambil tindakan aman! ✨', '💊');
+      } else if (action === 'skip_dose') {
+        AppState.arvDose.loggedToday = false;
+        AppState.arvDose.status = 'Terlewat';
+
+        AppState.history.unshift({
+          id: Date.now(),
+          type: 'arv',
+          title: 'Dosis ARV Dilewati (>12 Jam)',
+          desc: 'Dosis dilewati demi keamanan agar tidak menggandakan dosis. Jadwal besok kembali normal.',
+          time: 'Hari ini, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          badge: 'Terlewat'
+        });
+
+        updateARVRingUI();
+        updateTreatmentCardsUI();
+        renderTimeline();
+        savePersistedState();
+        showToast('Dosis dilewati sesuai panduan aman. Jangan menggandakan dosis besok ya. 💙', '⚠️');
+      }
+    }
+
+    // -------------------------------------------------------------
+    // FITUR A & D: PENGINGAT ARV & RUTINITAS ADAPTIF
+    // -------------------------------------------------------------
+    let selectedRoutineName = 'Setelah Makan Malam';
+
+    function openAdaptiveReminderModal() {
+      const timeInput = document.getElementById('input-arv-target-time');
+      if (timeInput && AppState.arvDose.targetTime) {
+        timeInput.value = AppState.arvDose.targetTime;
+      }
+      if (AppState.arvDose.adaptiveRoutine) {
+        selectRoutineAnchor(AppState.arvDose.adaptiveRoutine.routineName);
+        const toggleRoutine = document.getElementById('toggle-adaptive-routine');
+        const toggleBuffer = document.getElementById('toggle-smart-buffer');
+        const toggleNudge = document.getElementById('toggle-multi-nudge');
+        const toggleDisguised = document.getElementById('toggle-disguised-adaptive');
+
+        if (toggleRoutine) toggleRoutine.checked = AppState.arvDose.adaptiveRoutine.enabled;
+        if (toggleBuffer) toggleBuffer.checked = AppState.arvDose.adaptiveRoutine.smartBufferWeekend;
+        if (toggleNudge) toggleNudge.checked = AppState.arvDose.adaptiveRoutine.multiNudge;
+        if (toggleDisguised) toggleDisguised.checked = AppState.arvDose.adaptiveRoutine.disguisedNotification;
+      }
+      openSheet('modal-adaptive-reminder');
+    }
+
+    function closeAdaptiveReminderModal() {
+      closeSheet('modal-adaptive-reminder');
+    }
+
+    function selectRoutineAnchor(routineName) {
+      selectedRoutineName = routineName;
+      const mapping = {
+        'Setelah Makan Malam': 'routine-opt-dinner',
+        'Sebelum Tidur Malam': 'routine-opt-bed',
+        'Saat Sikat Gigi Malam': 'routine-opt-teeth',
+        'Setelah Bangun Pagi': 'routine-opt-morning'
+      };
+
+      for (let r in mapping) {
+        const btn = document.getElementById(mapping[r]);
+        if (!btn) continue;
+        const icon = btn.querySelector('.routine-check-icon');
+        if (r === routineName) {
+          btn.classList.remove('border-stone-200', 'text-stone-700');
+          btn.classList.add('border-lavender-dark', 'font-bold', 'text-espresso');
+          if (icon) {
+            icon.classList.remove('text-stone-300');
+            icon.classList.add('text-lavender-dark');
+          }
+        } else {
+          btn.classList.add('border-stone-200', 'text-stone-700');
+          btn.classList.remove('border-lavender-dark', 'font-bold', 'text-espresso');
+          if (icon) {
+            icon.classList.add('text-stone-300');
+            icon.classList.remove('text-lavender-dark');
+          }
+        }
+      }
+    }
+
+    function saveAdaptiveReminderSettings() {
+      const timeInput = document.getElementById('input-arv-target-time');
+      const toggleRoutine = document.getElementById('toggle-adaptive-routine');
+      const toggleBuffer = document.getElementById('toggle-smart-buffer');
+      const toggleNudge = document.getElementById('toggle-multi-nudge');
+      const toggleDisguised = document.getElementById('toggle-disguised-adaptive');
+
+      if (timeInput && timeInput.value) {
+        AppState.arvDose.targetTime = timeInput.value;
+        const parts = timeInput.value.split(':');
+        let hours = parseInt(parts[0]);
+        let minutes = parts[1];
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        AppState.arvDose.time = (hours < 10 ? '0' + hours : hours) + ':' + minutes + ' ' + ampm;
+      }
+
+      const routineIcons = {
+        'Setelah Makan Malam': '🍽️',
+        'Sebelum Tidur Malam': '🛏️',
+        'Saat Sikat Gigi Malam': '🪥',
+        'Setelah Bangun Pagi': '🌅'
+      };
+
+      AppState.arvDose.adaptiveRoutine = {
+        enabled: toggleRoutine ? toggleRoutine.checked : true,
+        routineName: selectedRoutineName,
+        routineIcon: routineIcons[selectedRoutineName] || '🍽️',
+        targetTime: AppState.arvDose.targetTime,
+        smartBufferWeekend: toggleBuffer ? toggleBuffer.checked : true,
+        multiNudge: toggleNudge ? toggleNudge.checked : true,
+        disguisedNotification: toggleDisguised ? toggleDisguised.checked : true
+      };
+
+      closeAdaptiveReminderModal();
+      updateARVRingUI();
+      updateTreatmentCardsUI();
+      savePersistedState();
+      showToast(`Pengingat ARV diperbarui: Rutinitas '${selectedRoutineName}' aktif!`, '⏰');
+    }
+
+    // -------------------------------------------------------------
+    // FITUR E & F: PEMANTAUAN STOK OBAT & PENGINGAT REFILL
+    // -------------------------------------------------------------
+    function openRefillStockModal() {
+      const pillsInput = document.getElementById('input-refill-pills');
+      const dateInput = document.getElementById('input-refill-date');
+      const faskesInput = document.getElementById('input-refill-faskes');
+      const checkH7 = document.getElementById('check-alert-h7');
+      const checkH3 = document.getElementById('check-alert-h3');
+      const checkH1 = document.getElementById('check-alert-h1');
+
+      if (pillsInput) pillsInput.value = AppState.stock.pillsLeft;
+      if (dateInput) dateInput.value = AppState.stock.refillDate;
+      if (faskesInput) faskesInput.value = AppState.stock.refillFaskes || 'Puskesmas / Poli PDP Klinik Sehat';
+      if (checkH7) checkH7.checked = !!AppState.stock.alertH7;
+      if (checkH3) checkH3.checked = AppState.stock.alertH3 !== false;
+      if (checkH1) checkH1.checked = AppState.stock.alertH1 !== false;
+
+      updateStockModalBar();
       openSheet('modal-refill');
     }
 
-    function closeRefillModal() {
+    function closeRefillStockModal() {
       closeSheet('modal-refill');
     }
 
-    function saveRefillSettings() {
+    function openRefillModal() {
+      openRefillStockModal();
+    }
+
+    function closeRefillModal() {
+      closeRefillStockModal();
+    }
+
+    function adjustPills(delta) {
+      const pillsInput = document.getElementById('input-refill-pills');
+      if (!pillsInput) return;
+      let current = parseInt(pillsInput.value) || 0;
+      current = Math.max(0, Math.min(365, current + delta));
+      pillsInput.value = current;
+      updateStockModalBar();
+    }
+
+    function setPillStock(amount) {
+      const pillsInput = document.getElementById('input-refill-pills');
+      if (!pillsInput) return;
+      pillsInput.value = Math.max(0, parseInt(amount) || 0);
+      updateStockModalBar();
+      showToast(`Jumlah obat disetel ke ${amount} pil.`, '💊');
+    }
+
+    function addPillStock(amount) {
+      adjustPills(amount);
+      showToast(`Ditambahkan +${amount} pil ke stok.`, '💊');
+    }
+
+    function updateStockModalBar() {
+      const pillsInput = document.getElementById('input-refill-pills');
+      const bar = document.getElementById('modal-stock-progress-bar');
+      const pill = document.getElementById('modal-stock-status-pill');
+      const exhaustDate = document.getElementById('modal-stock-exhaust-date');
+      const daysLeft = document.getElementById('modal-stock-days-left');
+      const scaleMax = document.getElementById('modal-stock-scale-max');
+
+      let count = pillsInput ? parseInt(pillsInput.value) : AppState.stock.pillsLeft;
+      if (isNaN(count) || count < 0) count = 0;
+
+      // Dynamic scale: 30, 60, 90, or max
+      const maxScale = count > 60 ? (count > 90 ? Math.max(120, count) : 90) : (count > 30 ? 60 : 30);
+      const pct = Math.min(100, Math.round((count / maxScale) * 100));
+
+      if (bar) {
+        bar.style.width = pct + '%';
+        if (count <= 7) bar.className = 'bg-rose-500 h-2.5 rounded-full transition-all duration-300';
+        else if (count <= 14) bar.className = 'bg-amber-500 h-2.5 rounded-full transition-all duration-300';
+        else bar.className = 'bg-emerald-500 h-2.5 rounded-full transition-all duration-300';
+      }
+
+      if (pill) {
+        if (count <= 7) {
+          pill.className = 'px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[9px] font-extrabold';
+          pill.textContent = `Kritis (${count} Pil - Segera Refill)`;
+        } else if (count <= 14) {
+          pill.className = 'px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[9px] font-extrabold';
+          pill.textContent = `Menipis (${count} Pil)`;
+        } else {
+          pill.className = 'px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 text-[9px] font-extrabold';
+          pill.textContent = `Aman (${count} Pil)`;
+        }
+      }
+
+      if (daysLeft) {
+        daysLeft.textContent = count > 0 ? `Cukup untuk ${count} hari (1 pil/hari)` : 'Obat habis! Segera ambil di faskes';
+      }
+
+      if (scaleMax) {
+        scaleMax.textContent = `Kapasitas: ${maxScale} Pil`;
+      }
+
+      if (exhaustDate) {
+        const estDate = new Date();
+        estDate.setDate(estDate.getDate() + count);
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        exhaustDate.textContent = count > 0 ? `Estimasi Habis: ${estDate.toLocaleDateString('id-ID', options)}` : 'Sudah Habis';
+      }
+    }
+
+    function saveRefillStockSettings() {
       const pillsInput = document.getElementById('input-refill-pills');
       const dateInput = document.getElementById('input-refill-date');
+      const faskesInput = document.getElementById('input-refill-faskes');
+      const checkH7 = document.getElementById('check-alert-h7');
+      const checkH3 = document.getElementById('check-alert-h3');
+      const checkH1 = document.getElementById('check-alert-h1');
 
-      if (pillsInput) AppState.stock.pillsLeft = parseInt(pillsInput.value) || 8;
+      if (pillsInput) AppState.stock.pillsLeft = Math.max(0, parseInt(pillsInput.value) || 0);
       if (dateInput) AppState.stock.refillDate = dateInput.value;
+      if (faskesInput) AppState.stock.refillFaskes = faskesInput.value;
+      if (checkH7) AppState.stock.alertH7 = checkH7.checked;
+      if (checkH3) AppState.stock.alertH3 = checkH3.checked;
+      if (checkH1) AppState.stock.alertH1 = checkH1.checked;
 
-      const badgeHome = document.getElementById('home-pill-badge');
-      const textHome = document.getElementById('home-refill-text');
-      const stockTrack = document.getElementById('track-stock-count');
-
-      if (badgeHome) badgeHome.textContent = `Sisa ${AppState.stock.pillsLeft} Pil`;
-      if (textHome) textHome.textContent = AppState.stock.refillDate;
-      if (stockTrack) stockTrack.textContent = `${AppState.stock.pillsLeft} Pil`;
-
-      closeRefillModal();
+      closeRefillStockModal();
+      updateTreatmentCardsUI();
       savePersistedState();
-      showToast('Pengaturan stok dan kontrol klinik diperbarui.', '💊');
+      showToast('Stok obat dan pengingat refill berhasil diperbarui!', '📦');
+    }
+
+    function saveRefillSettings() {
+      saveRefillStockSettings();
+    }
+
+    // -------------------------------------------------------------
+    // FITUR G: PENGINGAT KONTROL DOKTER & CHECKLIST KUNJUNGAN
+    // -------------------------------------------------------------
+    function openClinicCheckupModal() {
+      const detailDoctor = document.getElementById('checkup-detail-doctor');
+      const detailClinic = document.getElementById('checkup-detail-clinic');
+      const detailDatetime = document.getElementById('checkup-detail-datetime');
+      const inputDate = document.getElementById('input-checkup-date');
+      const inputDoctor = document.getElementById('input-checkup-doctor');
+
+      if (AppState.clinicCheckup) {
+        if (detailDoctor) detailDoctor.textContent = AppState.clinicCheckup.doctorName;
+        if (detailClinic) detailClinic.textContent = AppState.clinicCheckup.clinicName;
+        if (detailDatetime) detailDatetime.textContent = AppState.clinicCheckup.datetime;
+        if (inputDate) inputDate.value = AppState.clinicCheckup.datetime;
+        if (inputDoctor) inputDoctor.value = AppState.clinicCheckup.doctorName;
+
+        renderChecklistItems();
+      }
+
+      openSheet('modal-clinic-checkup');
+    }
+
+    function closeClinicCheckupModal() {
+      closeSheet('modal-clinic-checkup');
+    }
+
+    function renderChecklistItems() {
+      if (!AppState.clinicCheckup || !AppState.clinicCheckup.checklist) return;
+      const list = AppState.clinicCheckup.checklist;
+      const readyCount = list.filter(i => i.done).length;
+      const counter = document.getElementById('checkup-checklist-counter');
+      if (counter) counter.textContent = `${readyCount} dari ${list.length} Siap`;
+
+      list.forEach(item => {
+        const checkbox = document.getElementById(`checkup-item-${item.id}`);
+        if (checkbox) checkbox.checked = item.done;
+      });
+    }
+
+    function toggleChecklistItem(id) {
+      if (!AppState.clinicCheckup || !AppState.clinicCheckup.checklist) return;
+      const item = AppState.clinicCheckup.checklist.find(i => i.id === id);
+      if (item) {
+        item.done = !item.done;
+        renderChecklistItems();
+        updateTreatmentCardsUI();
+        savePersistedState();
+      }
+    }
+
+    function saveClinicCheckupSettings() {
+      const inputDate = document.getElementById('input-checkup-date');
+      const inputDoctor = document.getElementById('input-checkup-doctor');
+
+      if (AppState.clinicCheckup) {
+        if (inputDate && inputDate.value) AppState.clinicCheckup.datetime = inputDate.value;
+        if (inputDoctor && inputDoctor.value) AppState.clinicCheckup.doctorName = inputDoctor.value;
+      }
+
+      closeClinicCheckupModal();
+      updateTreatmentCardsUI();
+      savePersistedState();
+      showToast('Jadwal kontrol dokter diperbarui!', '🩺');
+    }
+
+    function completeClinicCheckup() {
+      const prevDate = AppState.clinicCheckup ? AppState.clinicCheckup.datetime : '24 Okt 2026';
+      
+      AppState.history.unshift({
+        id: Date.now(),
+        type: 'clinic',
+        title: 'Kontrol Klinik Selesai',
+        desc: `Kunjungan kontrol ke ${AppState.clinicCheckup.doctorName} di ${AppState.clinicCheckup.clinicName} terlaksana dengan baik.`,
+        time: 'Hari ini, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        badge: 'Kontrol Selesai'
+      });
+
+      // Advance checkup date forward by 30 days
+      if (AppState.clinicCheckup) {
+        AppState.clinicCheckup.datetime = '24 Nov 2026, 09:30 WIB';
+        if (AppState.clinicCheckup.checklist) {
+          AppState.clinicCheckup.checklist.forEach(i => i.done = false);
+        }
+      }
+
+      closeClinicCheckupModal();
+      updateTreatmentCardsUI();
+      renderTimeline();
+      savePersistedState();
+      showToast('Kontrol dokter selesai! Jadwal berikutnya telah diperbarui untuk bulan depan. 🩺✨', '🎉');
+    }
+
+    // -------------------------------------------------------------
+    // TREATMENT CARDS SYNCHRONIZER (HOME & TRACK TABS)
+    // -------------------------------------------------------------
+    function updateTreatmentCardsUI() {
+      // 1. Home Routine Pill
+      const routineNameEl = document.getElementById('home-routine-name');
+      const routineIconEl = document.getElementById('home-routine-icon-display');
+      if (AppState.arvDose && AppState.arvDose.adaptiveRoutine) {
+        if (routineNameEl) routineNameEl.textContent = AppState.arvDose.adaptiveRoutine.routineName;
+        if (routineIconEl) routineIconEl.textContent = AppState.arvDose.adaptiveRoutine.routineIcon || '🍽️';
+      }
+
+      // 2. Home Stock & Refill Card
+      const stockBadge = document.getElementById('home-stock-badge');
+      const stockBar = document.getElementById('home-stock-bar');
+      const stockEstimate = document.getElementById('home-stock-estimate');
+      const refillSummary = document.getElementById('home-refill-date-summary');
+      const count = AppState.stock.pillsLeft;
+      const pct = Math.min(100, Math.round((count / 30) * 100));
+
+      if (stockBadge) {
+        stockBadge.textContent = `Sisa ${count} Pil`;
+        if (count <= 7) stockBadge.className = 'px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 text-[9px] font-bold';
+        else if (count <= 14) stockBadge.className = 'px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[9px] font-bold';
+        else stockBadge.className = 'px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold';
+      }
+
+      if (stockBar) {
+        stockBar.style.width = pct + '%';
+        if (count <= 7) stockBar.className = 'bg-rose-500 h-1.5 rounded-full transition-all duration-500';
+        else if (count <= 14) stockBar.className = 'bg-amber-500 h-1.5 rounded-full transition-all duration-500';
+        else stockBar.className = 'bg-emerald-500 h-1.5 rounded-full transition-all duration-500';
+      }
+
+      if (stockEstimate) {
+        const estDate = new Date();
+        estDate.setDate(estDate.getDate() + count);
+        const options = { day: 'numeric', month: 'short' };
+        stockEstimate.innerHTML = `Estimasi habis: <b class="text-espresso">${estDate.toLocaleDateString('id-ID', options)}</b>`;
+      }
+
+      if (refillSummary) {
+        refillSummary.textContent = `Refill: ${AppState.stock.refillDate.split(',')[0] || AppState.stock.refillDate}`;
+      }
+
+      // 3. Home Doctor Checkup Card
+      const doctorNameEl = document.getElementById('home-doctor-name');
+      const checkupBadgeEl = document.getElementById('home-checkup-badge');
+      const checkupClinicEl = document.getElementById('home-checkup-clinic-summary');
+      const checkupChecklistEl = document.getElementById('home-checkup-checklist-summary');
+
+      if (AppState.clinicCheckup) {
+        if (doctorNameEl) doctorNameEl.textContent = AppState.clinicCheckup.doctorName;
+        if (checkupBadgeEl) checkupBadgeEl.textContent = AppState.clinicCheckup.datetime.split(',')[0] || '24 Okt';
+        if (checkupClinicEl) checkupClinicEl.textContent = `${AppState.clinicCheckup.clinicName.split(' ')[0]} • ${AppState.clinicCheckup.datetime.split(' ')[2] || '09:30'}`;
+        if (checkupChecklistEl && AppState.clinicCheckup.checklist) {
+          const ready = AppState.clinicCheckup.checklist.filter(i => i.done).length;
+          checkupChecklistEl.textContent = `✓ ${ready}/${AppState.clinicCheckup.checklist.length} Siap`;
+        }
+      }
+
+      // 4. Track Tab Stock Card
+      const trackStockCount = document.getElementById('track-stock-count');
+      const trackRefillText = document.getElementById('track-stock-refill-text');
+      if (trackStockCount) trackStockCount.textContent = `${count} Pil`;
+      if (trackRefillText) trackRefillText.textContent = `Refill: ${AppState.stock.refillDate}`;
+
+      // 5. Sheet Log Dose Time Label
+      const sheetTime = document.getElementById('sheet-arv-time');
+      if (sheetTime) sheetTime.textContent = `${AppState.arvDose.time} (${AppState.arvDose.targetTime || '20:00'})`;
     }
 
 
@@ -5449,6 +6503,7 @@
       if (aliasText) aliasText.textContent = AppState.user.alias;
 
       updateARVRingUI();
+      updateTreatmentCardsUI();
       updateFlipCardUI();
       renderTimeline();
       renderEducationArticles();
